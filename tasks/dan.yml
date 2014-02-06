@@ -4,7 +4,7 @@
 # repos ------------------------------------------------------------------- {{{
 - name: dotfiles | dan | hg clone dotfiles.dan.hg.repos
   hg: repo={{ item.repo }} dest={{ item.dest }}
-  with_items: "{{ dotfiles.dan.hg.repos }}"
+  with_items: dotfiles.dan.hg.repos
 
 - name: dotfiles | dan | git clone dotfiles.dan.git.repos
   git: repo={{ item.repo }} dest={{ item.dest }}
