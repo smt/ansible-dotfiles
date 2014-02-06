@@ -1,0 +1,346 @@
+# file: group_vars/dotfiles.yml
+
+---
+dotfiles:
+  # dan ------------------------------------------------------------------- {{{
+  dan:
+    # hg ----------------------------------------------------------- {{{
+    hg:
+      repos:
+        - name: hg-prompt
+          repo: "https://bitbucket.org/sjl/hg-prompt"
+          dest:  "{{ dan.home }}/.hgext/hg-prompt"
+        - name: hg-remotebranches
+          repo: "https://bitbucket.org/durin42/hg-remotebranches"
+          dest:  "{{ dan.home }}/.hgext/hg-remotebranches"
+        - name: hgshelve
+          repo: "https://bitbucket.org/astiob/hgshelve"
+          dest:  "{{ dan.home }}/.hgext/hgshelve"
+        - name: hg-git
+          repo: "http://bitbucket.org/durin42/hg-git"
+          dest:  "{{ dan.home }}/.hgext/hg-git"
+        - name: hgwatchman
+          repo: "http://bitbucket.org/facebook/hgwatchman"
+          dest:  "{{ dan.home }}/.hgext/hgwatchman"
+    # /hg ---------------------------------------------------------- }}}
+
+    # git ---------------------------------------------------------- {{{
+    git:
+      repos:
+        - name: oh-my-zsh
+          repo: "git://github.com/robbyrussell/oh-my-zsh.git"
+          dest: "{{ dan.home }}/.oh-my-zsh"
+        - name: oh-my-fish
+          repo: "git://github.com/bpinto/oh-my-fish.git"
+          dest: "{{ dan.home }}/.oh-my-fish"
+        - name: fish-theme
+          repo: "git://github.com/danieljaouen/fish-theme.git"
+          dest: "{{ dan.home }}/.oh-my-fish/themes/danieljaouen"
+        - name: virtualfish
+          repo: "git://github.com/danieljaouen/virtualfish.git"
+          dest: "{{ dan.home }}/.virtualfish"
+        - name: zsh-syntax-highlighting
+          repo: "git://github.com/zsh-users/zsh-syntax-highlighting.git"
+          dest: "{{ dan.home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        - name: tmux-powerline
+          repo: "git://github.com/erikw/tmux-powerline.git"
+          dest: "{{ dan.home }}/.tmux/tmux-powerline"
+        - name: rbenv
+          repo: "git://github.com/sstephenson/rbenv.git"
+          dest: "{{ dan.home }}/.rbenv"
+        - name: ruby-build
+          repo: "git://github.com/sstephenson/ruby-build.git"
+          dest: "{{ dan.home }}/.rbenv/plugins/ruby-build"
+        - name: pyenv
+          repo: "git://github.com/yyuu/pyenv.git"
+          dest: "{{ dan.home }}/.pyenv"
+        - name: nvm
+          repo: "git://github.com/creationix/nvm.git"
+          dest: "{{ dan.home }}/.nvm"
+        - name: vundle
+          repo: "git://github.com/gmarik/vundle.git"
+          dest: "{{ dan.home }}/.vim/bundle/vundle"
+        - name: vimpager
+          repo: "git://github.com/rkitover/vimpager.git"
+          dest: "{{ dan.home }}/vimpager"
+        - name: dotfiles
+          repo: "git://github.com/danieljaouen/dotfiles.git"
+          dest: "{{ dan.home }}/.dotfiles"
+
+        # vundles ---------------------------- {{{
+        - name: vim-gocode
+          repo: "git://github.com/Blackrush/vim-gocode"
+          dest: "{{ dan.home }}/.vim/bundle/vim-gocode"
+        - name: Vim-Jinja2-Syntax
+          repo: "git://github.com/Glench/Vim-Jinja2-Syntax.git"
+          dest: "{{ dan.home }}/.vim/bundle/Vim-Jinja2-Syntax"
+        - name: LaTeX-Box
+          repo: "git://github.com/LaTeX-Box-Team/LaTeX-Box.git"
+          dest: "{{ dan.home }}/.vim/bundle/LaTeX-Box"
+        - name: vim-addon-mw-utils
+          repo: "git://github.com/MarcWeber/vim-addon-mw-utils.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-addon-mw-utils"
+        - name: vim-haproxy
+          repo: "git://github.com/RobbieClarken/vim-haproxy.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-haproxy"
+        - name: ultisnips
+          repo: "git://github.com/SirVer/ultisnips.git"
+          dest: "{{ dan.home }}/.vim/bundle/ultisnips"
+        - name: YouCompleteMe
+          repo: "git://github.com/Valloric/YouCompleteMe.git"
+          dest: "{{ dan.home }}/.vim/bundle/YouCompleteMe"
+        - name: vim-colors-solarized
+          repo: "git://github.com/altercation/vim-colors-solarized.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-colors-solarized"
+        - name: vim-css-color
+          repo: "git://github.com/ap/vim-css-color.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-css-color"
+        - name: vim-airline
+          repo: "git://github.com/bling/vim-airline.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-airline"
+        - name: scss-syntax.vim
+          repo: "git://github.com/cakebaker/scss-syntax.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/scss-syntax.vim"
+        - name: vim-tmux-navigator
+          repo: "git://github.com/christoomey/vim-tmux-navigator.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-tmux-navigator"
+        - name: vim-fish
+          repo: "git://github.com/dag/vim-fish.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-fish"
+        - name: colour-schemes
+          repo: "git://github.com/daylerees/colour-schemes.git"
+          dest: "{{ dan.home }}/.vim/bundle/colour-schemes"
+        - name: vim-elixir
+          repo: "git://github.com/elixir-lang/vim-elixir.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-elixir"
+        - name: vim-varnish
+          repo: "git://github.com/empanda/vim-varnish.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-varnish"
+        - name: go.vim
+          repo: "git://github.com/fsouza/go.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/go.vim"
+        - name: vundle
+          repo: "git://github.com/gmarik/vundle.git"
+          dest: "{{ dan.home }}/.vim/bundle/vundle"
+        - name: tabular
+          repo: "git://github.com/godlygeek/tabular.git"
+          dest: "{{ dan.home }}/.vim/bundle/tabular"
+        - name: maktaba
+          repo: "git://github.com/google/maktaba.git"
+          dest: "{{ dan.home }}/.vim/bundle/maktaba"
+        - name: vim-less
+          repo: "git://github.com/groenewege/vim-less.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-less"
+        - name: vim-clojure-static
+          repo: "git://github.com/guns/vim-clojure-static.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-clojure-static"
+        - name: VimOrganizer
+          repo: "git://github.com/hsitz/VimOrganizer.git"
+          dest: "{{ dan.home }}/.vim/bundle/VimOrganizer"
+        - name: vim-python-pep8-indent
+          repo: "git://github.com/hynek/vim-python-pep8-indent.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-python-pep8-indent"
+        - name: calendar.vim
+          repo: "git://github.com/itchyny/calender.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/calendar.vim"
+        - name: auto-pairs
+          repo: "git://github.com/jiangmiao/auto-pairs.git"
+          dest: "{{ dan.home }}/.vim/bundle/auto-pairs"
+        - name: vimerl
+          repo: "git://github.com/jimenezrick/vimerl.git"
+          dest: "{{ dan.home }}/.vim/bundle/vimerl"
+        - name: vim-easy-align
+          repo: "git://github.com/junegunn/vim-easy-align.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-easy-align"
+        - name: vim-vspec
+          repo: "git://github.com/kana/vim-vspec.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-vspec"
+        - name: vim-coffee-script
+          repo: "git://github.com/kchmck/vim-coffee-script.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-coffee-script"
+        - name: tagbar
+          repo: "git://github.com/majutsushi/tagbar.git"
+          dest: "{{ dan.home }}/.vim/bundle/tagbar"
+        - name: calendar-vim
+          repo: "git://github.com/mattn/calendar-vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/calendar-vim"
+        - name: emmet-vim
+          repo: "git://github.com/mattn/emmet-vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/emmet-vim"
+        - name: gist
+          repo: "git://github.com/mattn/gist.git"
+          dest: "{{ dan.home }}/.vim/bundle/gist"
+        - name: webapi-vim
+          repo: "git://github.com/mattn/webapi-vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/webapi-vim"
+        - name: vim-wombat256mod
+          repo: "git://github.com/michalbachowski/vim-wombat256mod.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-wombat256mod"
+        - name: ack.vim
+          repo: "git://github.com/mileszs/ack.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/ack.vim"
+        - name: vim-indent-guides
+          repo: "git://github.com/nathanaelkane/vim-indent-guides.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-indent-guides"
+        - name: molokai
+          repo: "git://github.com/nviennot/molokai.git"
+          dest: "{{ dan.home }}/.vim/bundle/molokai"
+        - name: html5.vim
+          repo: "git://github.com/othree/html5.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/html5.vim"
+        - name: vim-javascript
+          repo: "git://github.com/pangloss/vim-javascript.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-javascript"
+        - name: vim-cucumber-align-pipes
+          repo: "git://github.com/quentindecock/vim-cucumber-align-pipes.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-cucumber-align-pipes"
+        - name: snipmate-snippets-rubymotion
+          repo: "git://github.com/rcyrus/snipmate-snippets-rubymotion.git"
+          dest: "{{ dan.home }}/.vim/bundle/snipmate-snippets-rubymotion"
+        - name: clever-f
+          repo: "git://github.com/rhysd/clever-f.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/clever-f.vim"
+        - name: vim-puppet
+          repo: "git://github.com/rodjek/vim-puppet.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-puppet"
+        - name: salt-vim
+          repo: "git://github.com/saltstack/salt-vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/salt-vim"
+        - name: syntastic
+          repo: "git://github.com/scrooloose/syntastic.git"
+          dest: "{{ dan.home }}/.vim/bundle/syntastic"
+        - name: lusty
+          repo: "git://github.com/sjbach/lusty.git"
+          dest: "{{ dan.home }}/.vim/bundle/lusty"
+        - name: simpylfold
+          repo: "git://github.com/tmhedberg/SimpylFold.git"
+          dest: "{{ dan.home }}/.vim/bundle/SimpylFold"
+        - name: quickfixsigns_vim
+          repo: "git://github.com/tomtom/quickfixsigns_vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/quickfixsigns_vim"
+        - name: tlib_vim
+          repo: "git://github.com/tomtom/tlib_vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/tlib_vim"
+        - name: vim-abolish
+          repo: "git://github.com/tpope/vim-abolish.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-abolish"
+        - name: vim-bundler
+          repo: "git://github.com/tpope/vim-bundler.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-bundler"
+        - name: vim-classpath
+          repo: "git://github.com/tpope/vim-classpath.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-classpath"
+        - name: vim-commentary
+          repo: "git://github.com/tpope/vim-commentary.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-commentary"
+        - name: vim-cucumber
+          repo: "git://github.com/tpope/vim-cucumber.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-cucumber"
+        - name: vim-dispatch
+          repo: "git://github.com/tpope/vim-dispatch.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-dispatch"
+        - name: vim-endwise
+          repo: "git://github.com/tpope/vim-endwise.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-endwise"
+        - name: vim-eunuch
+          repo: "git://github.com/tpope/vim-eunuch.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-eunuch"
+        - name: vim-fireplace
+          repo: "git://github.com/tpope/vim-fireplace.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-fireplace"
+        - name: vim-fugitive
+          repo: "git://github.com/tpope/vim-fugitive.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-fugitive"
+        - name: vim-pastie
+          repo: "git://github.com/tpope/vim-pastie.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-pastie"
+        - name: vim-ragtag
+          repo: "git://github.com/tpope/vim-ragtag.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-ragtag"
+        - name: vim-rails
+          repo: "git://github.com/tpope/vim-rails.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-rails"
+        - name: vim-rake
+          repo: "git://github.com/tpope/vim-rake.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-rake"
+        - name: vim-repeat
+          repo: "git://github.com/tpope/vim-repeat.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-repeat"
+        - name: vim-speeddating
+          repo: "git://github.com/tpope/vim-speeddating.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-speeddating"
+        - name: vim-surround
+          repo: "git://github.com/tpope/vim-surround.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-surround"
+        - name: vim-unimpaired
+          repo: "git://github.com/tpope/vim-unimpaired.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-unimpaired"
+        - name: vim-vinegar
+          repo: "git://github.com/tpope/vim-vinegar.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-vinegar"
+        - name: vim-vividchalk
+          repo: "git://github.com/tpope/vim-vividchalk.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-vividchalk"
+        - name: vim-protobuf
+          repo: "git://github.com/uarun/vim-protobuf.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-protobuf"
+        - name: vim-ruby
+          repo: "git://github.com/vim-ruby/vim-ruby.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-ruby"
+        - name: Align
+          repo: "git://github.com/vim-scripts/Align.git"
+          dest: "{{ dan.home }}/.vim/bundle/Align"
+        - name: L9
+          repo: "git://github.com/vim-scripts/L9.git"
+          dest: "{{ dan.home }}/.vim/bundle/L9"
+        - name: greplace.vim
+          repo: "git://github.com/vim-scripts/greplace.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/greplace.vim"
+        - name: matchit.zip
+          repo: "git://github.com/vim-scripts/matchit.zip.git"
+          dest: "{{ dan.home }}/.vim/bundle/matchit.zip"
+        - name: paredit.vim
+          repo: "git://github.com/vim-scripts/paredit.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/paredit.vim"
+        - name: utl.vim
+          repo: "git://github.com/vim-scripts/utl.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/utl.vim"
+        - name: vim-stylus
+          repo: "git://github.com/wavded/vim-stylus.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-stylus"
+        # /vundles --------------------------- }}}
+    # /git --------------------------------------------------------- }}}
+
+    # rbenv -------------------------------------------------------- {{{
+    rbenv:
+      global:  "{{ dan.ruby.version }}"
+
+      directories:
+        root:  "{{ dan.home }}/.rbenv"
+        bin:  "{{ dan.home }}/.rbenv/bin"
+        versions:  "{{ dan.home }}/.rbenv/versions"
+        global_root:  "{{ dan.home }}/.rbenv/versions/{{ dan.ruby.version }}"
+        global_bin:  "{{ dan.home }}/.rbenv/versions/{{ dan.ruby.version }}"
+        shims:  "{{ dan.home }}/.rbenv/shims"
+
+      executables:
+        bundle: "{{ dan.home }}/.rbenv/shims/bundle"
+        gem: "{{ dan.home }}/.rbenv/shims/gem"
+        pry: "{{ dan.home }}/.rbenv/shims/pry"
+        rails: "{{ dan.home }}/.rbenv/shims/rails"
+        rake: "{{ dan.home }}/.rbenv/shims/rake"
+        rbenv: "{{ dan.home }}/.rbenv/bin/rbenv"
+
+      commands:
+        rbenv_install_ruby: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/bin/rbenv install {{ dan.ruby.version }} creates={{ dan.home }}/.rbenv/versions/{{ dan.ruby.version }} executable={{ dan.user.shell }}"
+        rbenv_global_ruby: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/bin/rbenv global {{ dan.ruby.version }}"
+        gem_install_bundler: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/shims/gem install bundler"
+    # /rbenv ------------------------------------------------------- }}}
+
+    # dotfiles ----------------------------------------------------- {{{
+    dotfiles:
+      directory: "{{ dan.home }}/.dotfiles"
+      commands:
+        install: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/shims/rake chdir={{ dan.home }}/.dotfiles creates={{ dan.home }}/.zshrc"
+    # /dotfiles ---------------------------------------------------- }}}
+  # /dan ------------------------------------------------------------------ }}}

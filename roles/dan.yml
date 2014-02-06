@@ -1,0 +1,31 @@
+# file: roles/dotfiles/tasks/dan.yml
+
+---
+# repos ------------------------------------------------------------------- {{{
+- name: dotfiles | dan | hg clone dotfiles.dan.hg.repos
+  hg: repo={{ item.repo }} dest={{ item.dest }}
+  with_items: "{{ dotfiles.dan.hg.repos }}"
+
+- name: dotfiles | dan | git clone dotfiles.dan.git.repos
+  git: repo={{ item.repo }} dest={{ item.dest }}
+  with_items: dotfiles.dan.git.repos
+# /repos ------------------------------------------------------------------ }}}
+
+# rbenv ------------------------------------------------------------------- {{{
+- name: dotfiles | dan | rbenv install dotfiles.dan.ruby.version
+  shell: "{{ dotfiles.dan.rbenv.commands.rbenv_install_ruby }}"
+
+- name: dotfiles | dan | rbenv global dotfiles.dan.ruby.version
+  shell: "{{ dotfiles.dan.rbenv.commands.rbenv_global_ruby }}"
+
+- name: dotfiles | dan | gem install bundler
+  shell: "{{ dotfiles.dan.rbenv.commands.gem_install_bundler }}"
+# /rbenv ------------------------------------------------------------------ }}}
+
+# dotfiles ---------------------------------------------------------------- {{{
+- name: dotfiles | dan | rake install dotfiles
+  shell: "{{ dotfiles.dan.dotfiles.commands.install }}"
+
+- name: dotfiles | dan | ln -s ~/.tmux.system.conf ~/.tmux.conf
+  file: "src={{ dan.home }}/.tmux.{{ system }}.conf dest={{ dan.home }}/.tmux.conf state=link"
+# /dotfiles --------------------------------------------------------------- }}}
