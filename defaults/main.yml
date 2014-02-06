@@ -140,9 +140,6 @@ dotfiles:
         - name: vim-python-pep8-indent
           repo: "git://github.com/hynek/vim-python-pep8-indent.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-python-pep8-indent"
-        - name: calendar.vim
-          repo: "git://github.com/itchyny/calender.vim.git"
-          dest: "{{ dan.home }}/.vim/bundle/calendar.vim"
         - name: auto-pairs
           repo: "git://github.com/jiangmiao/auto-pairs.git"
           dest: "{{ dan.home }}/.vim/bundle/auto-pairs"
