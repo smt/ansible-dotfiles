@@ -329,9 +329,9 @@ dotfiles:
         rbenv: "{{ dan.home }}/.rbenv/bin/rbenv"
 
       commands:
-        rbenv_install_ruby: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/bin/rbenv install {{ dan.ruby.version }} creates={{ dan.home }}/.rbenv/versions/{{ dan.ruby.version }} executable={{ dan.user.shell }}"
-        rbenv_global_ruby: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/bin/rbenv global {{ dan.ruby.version }}"
-        gem_install_bundler: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/shims/gem install bundler"
+        rbenv_install_ruby: "env RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/bin/rbenv install {{ dan.ruby.version }} creates={{ dan.home }}/.rbenv/versions/{{ dan.ruby.version }} executable={{ dan.user.shell }}"
+        rbenv_global_ruby: "env RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/bin/rbenv global {{ dan.ruby.version }}"
+        gem_install_bundler: "env RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/shims/gem install bundler"
     # /rbenv ------------------------------------------------------- }}}
 
     # dotfiles ----------------------------------------------------- {{{
