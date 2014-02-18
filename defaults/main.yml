@@ -110,6 +110,9 @@ dotfiles:
         - name: colour-schemes
           repo: "git://github.com/daylerees/colour-schemes.git"
           dest: "{{ dan.home }}/.vim/bundle/colour-schemes"
+        - name: vim-scala
+          repo: "git://github.com/derekwyatt/vim-scala.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-scala"
         - name: vim-elixir
           repo: "git://github.com/elixir-lang/vim-elixir.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-elixir"
