@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  author: Daniel Jaouen
+  description: A dotfiles role.
+  license: BSD
+  min_ansible_version: 1.5
+  categories:
+  - system
+dependencies: []
