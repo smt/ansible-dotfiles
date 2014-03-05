@@ -122,6 +122,9 @@ dotfiles:
         - name: go.vim
           repo: "git://github.com/fsouza/go.vim.git"
           dest: "{{ dan.home }}/.vim/bundle/go.vim"
+        - name: wildfire.vim
+          repo: "git://github.com/gcmt/wildfire.vim.git"
+          dest: "{{ dan.home }}/.vim/bundle/wildfire.vim"
         - name: vundle
           repo: "git://github.com/gmarik/vundle.git"
           dest: "{{ dan.home }}/.vim/bundle/vundle"
