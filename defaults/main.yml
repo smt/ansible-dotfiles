@@ -119,6 +119,9 @@ dotfiles:
         - name: vim-varnish
           repo: "git://github.com/empanda/vim-varnish.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-varnish"
+        - name: nginx-vim-syntax
+          repo: "git://github.com/evanmiller/nginx-vim-syntax.git"
+          dest: "{{ dan.home }}/.vim/bundle/nginx-vim-syntax"
         - name: go.vim
           repo: "git://github.com/fsouza/go.vim.git"
           dest: "{{ dan.home }}/.vim/bundle/go.vim"
