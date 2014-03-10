@@ -95,6 +95,9 @@ dotfiles:
         - name: vim-css-color
           repo: "git://github.com/ap/vim-css-color.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-css-color"
+        - name: vim-hdevtools
+          repo: "git://github.com/bitc/vim-hdevtools.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-hdevtools"
         - name: vim-airline
           repo: "git://github.com/bling/vim-airline.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-airline"
