@@ -146,6 +146,9 @@ dotfiles:
         - name: vim-clojure-static
           repo: "git://github.com/guns/vim-clojure-static.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-clojure-static"
+        - name: vim-snippets
+          repo: "git://github.com/honza/vim-snippets.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-snippets"
         - name: VimOrganizer
           repo: "git://github.com/hsitz/VimOrganizer.git"
           dest: "{{ dan.home }}/.vim/bundle/VimOrganizer"
