@@ -6,7 +6,8 @@ A role to perform dotfile-related tasks.
 Requirements
 ------------
 
-None.
+- Mercurial
+- Git
 
 Dependencies
 ------------
