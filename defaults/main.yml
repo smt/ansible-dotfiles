@@ -358,6 +358,6 @@ dotfiles:
     dotfiles:
       directory: "{{ dan.home }}/.dotfiles"
       commands:
-        install: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/shims/rake chdir={{ dan.home }}/.dotfiles creates={{ dan.home }}/.zshrc"
+        install: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/shims/rake chdir={{ dan.home }}/.dotfiles creates={{ dan.home }}/.zshrc.local"
     # /dotfiles ---------------------------------------------------- }}}
   # /dan ------------------------------------------------------------------ }}}
