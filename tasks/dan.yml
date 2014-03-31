@@ -1,6 +1,12 @@
 # file: roles/dotfiles/tasks/dan.yml
 
 ---
+# files ------------------------------------------------------------------- {{{
+- name: dan | mkdir -p dotfiles.dan.directories
+  file: "name={{ item }}" state=directory
+  with_items: dotfiles.dan.directories
+# /files ------------------------------------------------------------------ }}}
+
 # repos ------------------------------------------------------------------- {{{
 - name: dan | hg clone dotfiles.dan.hg.repos
   hg: repo={{ item.repo }} dest={{ item.dest }}
