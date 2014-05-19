@@ -32,6 +32,6 @@
 # - name: dan | rake install dotfiles
 #   shell: "{{ dotfiles.dan.dotfiles.commands.install }}"
 
-- name: dan | ln -s ~/.tmux.system.conf ~/.tmux.conf
-  file: "src={{ dan.home }}/.tmux.{{ system }}.conf dest={{ dan.home }}/.tmux.conf state=link"
+# - name: dan | ln -s ~/.tmux.system.conf ~/.tmux.conf
+#   file: "src={{ dan.home }}/.tmux.{{ system }}.conf dest={{ dan.home }}/.tmux.conf state=link"
 # /dotfiles --------------------------------------------------------------- }}}
