@@ -13,7 +13,7 @@
   with_items: dotfiles.dan.hg.repos
 
 - name: dan | git clone dotfiles.dan.git.repos
-  git: repo={{ item.repo }} dest={{ item.dest }}
+  git: repo={{ item.repo }} dest={{ item.dest }} accept_hostkey=true
   with_items: dotfiles.dan.git.repos
 # /repos ------------------------------------------------------------------ }}}
 
