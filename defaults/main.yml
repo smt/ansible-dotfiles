@@ -73,9 +73,6 @@ dotfiles:
           dest: "{{ dan.home }}/.dotfiles"
 
         # vundles ---------------------------- {{{
-        - name: vim-gocode
-          repo: "git://github.com/Blackrush/vim-gocode"
-          dest: "{{ dan.home }}/.vim/bundle/vim-gocode"
         - name: Vim-Jinja2-Syntax
           repo: "git://github.com/Glench/Vim-Jinja2-Syntax.git"
           dest: "{{ dan.home }}/.vim/bundle/Vim-Jinja2-Syntax"
@@ -130,9 +127,9 @@ dotfiles:
         - name: nginx-vim-syntax
           repo: "git://github.com/evanmiller/nginx-vim-syntax.git"
           dest: "{{ dan.home }}/.vim/bundle/nginx-vim-syntax"
-        - name: go.vim
-          repo: "git://github.com/fsouza/go.vim.git"
-          dest: "{{ dan.home }}/.vim/bundle/go.vim"
+        - name: vim-go
+          repo: "git://github.com/evanmiller/vim-go.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-go.git"
         - name: wildfire.vim
           repo: "git://github.com/gcmt/wildfire.vim.git"
           dest: "{{ dan.home }}/.vim/bundle/wildfire.vim"
