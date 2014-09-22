@@ -129,7 +129,7 @@ dotfiles:
           dest: "{{ dan.home }}/.vim/bundle/nginx-vim-syntax"
         - name: vim-go
           repo: "git://github.com/evanmiller/vim-go.git"
-          dest: "{{ dan.home }}/.vim/bundle/vim-go.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-go"
         - name: wildfire.vim
           repo: "git://github.com/gcmt/wildfire.vim.git"
           dest: "{{ dan.home }}/.vim/bundle/wildfire.vim"
@@ -268,6 +268,9 @@ dotfiles:
         - name: vim-fugitive
           repo: "git://github.com/tpope/vim-fugitive.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-fugitive"
+        - name: vim-haml
+          repo: "git://github.com/tpope/vim-haml.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-haml"
         - name: vim-pastie
           repo: "git://github.com/tpope/vim-pastie.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-pastie"
