@@ -193,6 +193,9 @@ dotfiles:
         - name: vim-wombat256mod
           repo: "git://github.com/michalbachowski/vim-wombat256mod.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-wombat256mod"
+        - name: vim-node
+          repo: "git://github.com/moll/vim-node.git"
+          dest: "{{ dan.home }}/.vim/bundle/vim-node"
         - name: ack.vim
           repo: "git://github.com/mileszs/ack.vim.git"
           dest: "{{ dan.home }}/.vim/bundle/ack.vim"
