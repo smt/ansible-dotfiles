@@ -257,7 +257,7 @@ dotfiles:
           repo: "git://github.com/tpope/vim-dispatch.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-dispatch"
         - name: vim-endwise
-          repo: "git://github.com/danieljaouen/vim-endwise.git"
+          repo: "git://github.com/tpope/vim-endwise.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-endwise"
         - name: vim-eunuch
           repo: "git://github.com/tpope/vim-eunuch.git"
