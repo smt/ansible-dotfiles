@@ -88,6 +88,9 @@ dotfiles:
         - name: ultisnips
           repo: "git://github.com/SirVer/ultisnips.git"
           dest: "{{ dan.home }}/.vim/bundle/ultisnips"
+        - name: ListToggle
+          repo: "git://github.com/Valloric/ListToggle.git"
+          dest: "{{ dan.home }}/.vim/bundle/ListToggle"
         - name: YouCompleteMe
           repo: "git://github.com/Valloric/YouCompleteMe.git"
           dest: "{{ dan.home }}/.vim/bundle/YouCompleteMe"
