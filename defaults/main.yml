@@ -131,7 +131,7 @@ dotfiles:
           repo: "git://github.com/evanmiller/nginx-vim-syntax.git"
           dest: "{{ dan.home }}/.vim/bundle/nginx-vim-syntax"
         - name: vim-go
-          repo: "git://github.com/evanmiller/vim-go.git"
+          repo: "git://github.com/fatih/vim-go.git"
           dest: "{{ dan.home }}/.vim/bundle/vim-go"
         - name: wildfire.vim
           repo: "git://github.com/gcmt/wildfire.vim.git"
