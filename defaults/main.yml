@@ -48,7 +48,7 @@ dotfiles:
           repo: "git://github.com/zsh-users/zsh-syntax-highlighting.git"
           dest: "{{ dan.home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         - name: tmux-powerline
-          repo: "git://github.com/erikw/tmux-powerline.git"
+          repo: "git://github.com/danieljaouen/tmux-powerline.git"
           dest: "{{ dan.home }}/.tmux/tmux-powerline"
         - name: rbenv
           repo: "git://github.com/sstephenson/rbenv.git"
