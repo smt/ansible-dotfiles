@@ -13,34 +13,34 @@ dotfiles:
     git:
       repos:
         - name: oh-my-fish
-          repo: "git://github.com/bpinto/oh-my-fish.git"
+          repo: "https://github.com/bpinto/oh-my-fish.git"
           dest: "{{ smt.home }}/.oh-my-fish"
         - name: rbenv
-          repo: "git://github.com/sstephenson/rbenv.git"
+          repo: "https://github.com/sstephenson/rbenv.git"
           dest: "{{ smt.home }}/.rbenv"
         - name: ruby-build
-          repo: "git://github.com/sstephenson/ruby-build.git"
+          repo: "https://github.com/sstephenson/ruby-build.git"
           dest: "{{ smt.home }}/.rbenv/plugins/ruby-build"
         - name: pyenv
-          repo: "git://github.com/yyuu/pyenv.git"
+          repo: "https://github.com/yyuu/pyenv.git"
           dest: "{{ smt.home }}/.pyenv"
         - name: nvm
-          repo: "git://github.com/creationix/nvm.git"
+          repo: "https://github.com/creationix/nvm.git"
           dest: "{{ smt.home }}/.nvm"
         - name: nvm-wrapper
-          repo: "git://github.com/passcod/nvm-fish-wrapper.git"
+          repo: "https://github.com/passcod/nvm-fish-wrapper.git"
           dest: "{{ smt.home }}/.nvm-wrapper"
         - name: fzf
-          repo: "git://github.com/junegunn/fzf.git"
+          repo: "https://github.com/junegunn/fzf.git"
           dest: "{{ smt.home }}/.fzf"
         - name: neobundle
-          repo: "git://github.com/Shougo/neobundle.vim.git"
+          repo: "https://github.com/Shougo/neobundle.vim.git"
           dest: "{{ smt.home }}/.vim/bundle/neobundle.vim"
         - name: spacemacs
-          repo: "git://github.com/syl20bnr/spacemacs.git"
+          repo: "https://github.com/syl20bnr/spacemacs.git"
           dest: "{{ smt.home }}/.emacs.d"
         - name: dotfiles
-          repo: "git://github.com/smt/dotfiles.git"
+          repo: "https://github.com/smt/dotfiles.git"
           dest: "{{ smt.home }}/.dotfiles"
     # /git --------------------------------------------------------- }}}
 
