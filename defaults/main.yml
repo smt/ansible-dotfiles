@@ -2,107 +2,103 @@
 
 ---
 dotfiles:
-  # dan ------------------------------------------------------------------- {{{
-  dan:
+  # smt ------------------------------------------------------------------- {{{
+  smt:
     # directories -------------------------------------------------- {{{
     directories:
-      - "{{ dan.home }}/.hgext"
+      - "{{ smt.home }}/.config"
     # /directories ------------------------------------------------- }}}
-
-    # hg ----------------------------------------------------------- {{{
-    hg:
-      repos:
-        - name: hg-prompt
-          repo: "https://bitbucket.org/sjl/hg-prompt"
-          dest:  "{{ dan.home }}/.hgext/hg-prompt"
-        - name: hg-remotebranches
-          repo: "https://bitbucket.org/durin42/hg-remotebranches"
-          dest:  "{{ dan.home }}/.hgext/hg-remotebranches"
-        - name: hgshelve
-          repo: "https://bitbucket.org/astiob/hgshelve"
-          dest:  "{{ dan.home }}/.hgext/hgshelve"
-        - name: hg-git
-          repo: "http://bitbucket.org/durin42/hg-git"
-          dest:  "{{ dan.home }}/.hgext/hg-git"
-        - name: hgwatchman
-          repo: "http://bitbucket.org/facebook/hgwatchman"
-          dest:  "{{ dan.home }}/.hgext/hgwatchman"
-    # /hg ---------------------------------------------------------- }}}
 
     # git ---------------------------------------------------------- {{{
     git:
       repos:
-        - name: oh-my-zsh
-          repo: "git://github.com/robbyrussell/oh-my-zsh.git"
-          dest: "{{ dan.home }}/.oh-my-zsh"
         - name: oh-my-fish
           repo: "git://github.com/bpinto/oh-my-fish.git"
-          dest: "{{ dan.home }}/.oh-my-fish"
-        - name: fish-theme
-          repo: "git://github.com/danieljaouen/fish-theme.git"
-          dest: "{{ dan.home }}/.oh-my-fish/themes/danieljaouen"
-        - name: virtualfish
-          repo: "git://github.com/danieljaouen/virtualfish.git"
-          dest: "{{ dan.home }}/.virtualfish"
-        - name: zsh-syntax-highlighting
-          repo: "git://github.com/zsh-users/zsh-syntax-highlighting.git"
-          dest: "{{ dan.home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-        - name: tmux-powerline
-          repo: "git://github.com/danieljaouen/tmux-powerline.git"
-          dest: "{{ dan.home }}/.tmux/tmux-powerline"
+          dest: "{{ smt.home }}/.oh-my-fish"
         - name: rbenv
           repo: "git://github.com/sstephenson/rbenv.git"
-          dest: "{{ dan.home }}/.rbenv"
+          dest: "{{ smt.home }}/.rbenv"
         - name: ruby-build
           repo: "git://github.com/sstephenson/ruby-build.git"
-          dest: "{{ dan.home }}/.rbenv/plugins/ruby-build"
+          dest: "{{ smt.home }}/.rbenv/plugins/ruby-build"
         - name: pyenv
           repo: "git://github.com/yyuu/pyenv.git"
-          dest: "{{ dan.home }}/.pyenv"
+          dest: "{{ smt.home }}/.pyenv"
         - name: nvm
           repo: "git://github.com/creationix/nvm.git"
-          dest: "{{ dan.home }}/.nvm"
-        - name: vundle
-          repo: "git://github.com/gmarik/vundle.git"
-          dest: "{{ dan.home }}/.vim/bundle/vundle"
-        - name: vimpager
-          repo: "git://github.com/rkitover/vimpager.git"
-          dest: "{{ dan.home }}/vimpager"
+          dest: "{{ smt.home }}/.nvm"
+        - name: nvm-wrapper
+          repo: "git://github.com/passcod/nvm-fish-wrapper.git"
+          dest: "{{ smt.home }}/.nvm-wrapper"
+        - name: fzf
+          repo: "git://github.com/junegunn/fzf.git"
+          dest: "{{ smt.home }}/.fzf"
+        - name: neobundle
+          repo: "git://github.com/Shougo/neobundle.vim.git"
+          dest: "{{ smt.home }}/.vim/bundle/neobundle.vim"
+        - name: spacemacs
+          repo: "git://github.com/syl20bnr/spacemacs.git"
+          dest: "{{ smt.home }}/.emacs.d"
         - name: dotfiles
-          repo: "git://github.com/danieljaouen/dotfiles.git"
-          dest: "{{ dan.home }}/.dotfiles"
+          repo: "git://github.com/smt/dotfiles.git"
+          dest: "{{ smt.home }}/.dotfiles"
     # /git --------------------------------------------------------- }}}
+
+    # fzf ---------------------------------------------------------- }}}
+    fzf:
+      commands:
+        install:  "{{ smt.home }}/.fzf/install chdir={{ smt.home }} executable={{ smt.user.shell }}"
+    # /fzf --------------------------------------------------------- }}}
+
+    # vim_plug ----------------------------------------------------- {{{
+    vim_plug:
+      directories:
+        root:  "{{ smt.home }}/.vim"
+        autoload:  "{{ smt.home }}/.vim/autoload"
+      commands:
+        download:  "curl -fLo {{ smt.home }}/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim chdir={{ smt.home }} creates={{ smt.home }}/.vim/autoload executable={{ smt.user.shell }}"
+    # /vim_plug ---------------------------------------------------- {{{
+
+    # nvm ---------------------------------------------------------- {{{
+    nvm:
+      directories:
+        root:  "{{ smt.home }}/.nvm"
+      executables:
+        nvm:  "{{ smt.home}}/.nvm/nvm.sh"
+      commands:
+        checkout_nvm:  "git checkout (git describe --abbrev=0 --tags) chdir={{ smt.home }}/.nvm executable={{ smt.user.shell }}"
+    # /nvm --------------------------------------------------------- }}}
 
     # rbenv -------------------------------------------------------- {{{
     rbenv:
-      global:  "{{ dan.ruby.version }}"
+      global:  "{{ smt.ruby.version }}"
 
       directories:
-        root:  "{{ dan.home }}/.rbenv"
-        bin:  "{{ dan.home }}/.rbenv/bin"
-        versions:  "{{ dan.home }}/.rbenv/versions"
-        global_root:  "{{ dan.home }}/.rbenv/versions/{{ dan.ruby.version }}"
-        global_bin:  "{{ dan.home }}/.rbenv/versions/{{ dan.ruby.version }}"
-        shims:  "{{ dan.home }}/.rbenv/shims"
+        root:  "{{ smt.home }}/.rbenv"
+        bin:  "{{ smt.home }}/.rbenv/bin"
+        versions:  "{{ smt.home }}/.rbenv/versions"
+        global_root:  "{{ smt.home }}/.rbenv/versions/{{ smt.ruby.version }}"
+        global_bin:  "{{ smt.home }}/.rbenv/versions/{{ smt.ruby.version }}"
+        shims:  "{{ smt.home }}/.rbenv/shims"
 
       executables:
-        bundle: "{{ dan.home }}/.rbenv/shims/bundle"
-        gem: "{{ dan.home }}/.rbenv/shims/gem"
-        pry: "{{ dan.home }}/.rbenv/shims/pry"
-        rails: "{{ dan.home }}/.rbenv/shims/rails"
-        rake: "{{ dan.home }}/.rbenv/shims/rake"
-        rbenv: "{{ dan.home }}/.rbenv/bin/rbenv"
+        bundle: "{{ smt.home }}/.rbenv/shims/bundle"
+        gem: "{{ smt.home }}/.rbenv/shims/gem"
+        pry: "{{ smt.home }}/.rbenv/shims/pry"
+        rails: "{{ smt.home }}/.rbenv/shims/rails"
+        rake: "{{ smt.home }}/.rbenv/shims/rake"
+        rbenv: "{{ smt.home }}/.rbenv/bin/rbenv"
 
       commands:
-        rbenv_install_ruby: "env RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/bin/rbenv install {{ dan.ruby.version }} chdir={{ dan.home }} creates={{ dan.home }}/.rbenv/versions/{{ dan.ruby.version }} executable={{ dan.user.shell }}"
-        rbenv_global_ruby: "env RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/bin/rbenv global {{ dan.ruby.version }} chdir={{ dan.home }}"
-        gem_install_bundler: "env RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/shims/gem install bundler chdir={{ dan.home }}"
+        rbenv_install_ruby: "env RBENV_ROOT={{ smt.home }}/.rbenv {{ smt.home }}/.rbenv/bin/rbenv install {{ smt.ruby.version }} chdir={{ smt.home }} creates={{ smt.home }}/.rbenv/versions/{{ smt.ruby.version }} executable={{ smt.user.shell }}"
+        rbenv_global_ruby: "env RBENV_ROOT={{ smt.home }}/.rbenv {{ smt.home }}/.rbenv/bin/rbenv global {{ smt.ruby.version }} chdir={{ smt.home }}"
+        gem_install_bundler: "env RBENV_ROOT={{ smt.home }}/.rbenv {{ smt.home }}/.rbenv/shims/gem install bundler chdir={{ smt.home }}"
     # /rbenv ------------------------------------------------------- }}}
 
     # dotfiles ----------------------------------------------------- {{{
     dotfiles:
-      directory: "{{ dan.home }}/.dotfiles"
+      directory: "{{ smt.home }}/.dotfiles"
       commands:
-        install: "RBENV_ROOT={{ dan.home }}/.rbenv {{ dan.home }}/.rbenv/shims/rake chdir={{ dan.home }}/.dotfiles creates={{ dan.home }}/.zshrc.local"
+        install: "RBENV_ROOT={{ smt.home }}/.rbenv {{ smt.home }}/.rbenv/shims/rake chdir={{ smt.home }}/.dotfiles creates={{ smt.home }}/.fishrc.local"
     # /dotfiles ---------------------------------------------------- }}}
-  # /dan ------------------------------------------------------------------ }}}
+  # /smt ------------------------------------------------------------------ }}}
