@@ -24,19 +24,19 @@
 # /vim_plug --------------------------------------------------------------- {{{
 
 # nvm --------------------------------------------------------------------- {{{
- - name: smt | nvm checkout
-   shell: "{{ dotfiles.smt.nvm.commands.nvm_checkout }}"
+- name: smt | nvm checkout
+  shell: "{{ dotfiles.smt.nvm.commands.nvm_checkout }}"
 # /nvm -------------------------------------------------------------------- }}}
 
 # rbenv ------------------------------------------------------------------- {{{
- - name: smt | rbenv install dotfiles.smt.ruby.version
-   shell: "{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }}"
+- name: smt | rbenv install dotfiles.smt.ruby.version
+  shell: "{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }}"
 
- - name: smt | rbenv global dotfiles.smt.ruby.version
-   shell: "{{ dotfiles.smt.rbenv.commands.rbenv_global_ruby }}"
+- name: smt | rbenv global dotfiles.smt.ruby.version
+  shell: "{{ dotfiles.smt.rbenv.commands.rbenv_global_ruby }}"
 
- - name: smt | gem install bundler
-   shell: "{{ dotfiles.smt.rbenv.commands.gem_install_bundler }}"
+- name: smt | gem install bundler
+  shell: "{{ dotfiles.smt.rbenv.commands.gem_install_bundler }}"
 # /rbenv ------------------------------------------------------------------ }}}
 
 # dotfiles ---------------------------------------------------------------- {{{
