@@ -33,9 +33,6 @@ dotfiles:
         - name: fzf
           repo: "https://github.com/junegunn/fzf.git"
           dest: "{{ smt.home }}/.fzf"
-        - name: neobundle
-          repo: "https://github.com/Shougo/neobundle.vim.git"
-          dest: "{{ smt.home }}/.vim/bundle/neobundle.vim"
         - name: spacemacs
           repo: "https://github.com/syl20bnr/spacemacs.git"
           dest: "{{ smt.home }}/.emacs.d"
@@ -46,40 +43,37 @@ dotfiles:
 
     # fzf ---------------------------------------------------------- }}}
     fzf:
-      commands:
-        install:  "{{ smt.home }}/.fzf/install chdir={{ smt.home }} executable={{ smt.user.shell }}"
-    # /fzf --------------------------------------------------------- }}}
-
-    # vim_plug ----------------------------------------------------- {{{
-    vim_plug:
       directories:
-        root:  "{{ smt.home }}/.vim"
-        autoload:  "{{ smt.home }}/.vim/autoload"
+        root: "{{ smt.home }}./fzf"
       commands:
-        download:  "curl -fLo {{ smt.home }}/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim chdir={{ smt.home }} creates={{ smt.home }}/.vim/autoload executable={{ smt.user.shell }}"
-    # /vim_plug ---------------------------------------------------- {{{
+        install: install
+    # /fzf --------------------------------------------------------- }}}
 
     # nvm ---------------------------------------------------------- {{{
     nvm:
       directories:
-        root:  "{{ smt.home }}/.nvm"
+        root: "{{ smt.home }}/.nvm"
       executables:
-        nvm:  "{{ smt.home}}/.nvm/nvm.sh"
+        nvm: "{{ smt.home}}/.nvm/nvm.sh"
       commands:
-        checkout_nvm:  "git checkout (git describe --abbrev=0 --tags) chdir={{ smt.home }}/.nvm executable={{ smt.user.shell }}"
+        checkout: "git checkout (git describe --abbrev=0 --tags)"
+      versions:
+        - iojs
+        - stable
+        - 0.10
     # /nvm --------------------------------------------------------- }}}
 
     # rbenv -------------------------------------------------------- {{{
     rbenv:
-      global:  "{{ smt.ruby.version }}"
+      global: "{{ smt.ruby.version }}"
 
       directories:
-        root:  "{{ smt.home }}/.rbenv"
-        bin:  "{{ smt.home }}/.rbenv/bin"
-        versions:  "{{ smt.home }}/.rbenv/versions"
-        global_root:  "{{ smt.home }}/.rbenv/versions/{{ smt.ruby.version }}"
-        global_bin:  "{{ smt.home }}/.rbenv/versions/{{ smt.ruby.version }}"
-        shims:  "{{ smt.home }}/.rbenv/shims"
+        root: "{{ smt.home }}/.rbenv"
+        bin: "{{ smt.home }}/.rbenv/bin"
+        versions: "{{ smt.home }}/.rbenv/versions"
+        global_root: "{{ smt.home }}/.rbenv/versions/{{ smt.ruby.version }}"
+        global_bin: "{{ smt.home }}/.rbenv/versions/{{ smt.ruby.version }}"
+        shims: "{{ smt.home }}/.rbenv/shims"
 
       executables:
         bundle: "{{ smt.home }}/.rbenv/shims/bundle"
@@ -90,15 +84,25 @@ dotfiles:
         rbenv: "{{ smt.home }}/.rbenv/bin/rbenv"
 
       commands:
-        rbenv_install_ruby: "env RBENV_ROOT={{ smt.home }}/.rbenv {{ smt.home }}/.rbenv/bin/rbenv install {{ smt.ruby.version }} chdir={{ smt.home }} creates={{ smt.home }}/.rbenv/versions/{{ smt.ruby.version }} executable={{ smt.user.shell }}"
-        rbenv_global_ruby: "env RBENV_ROOT={{ smt.home }}/.rbenv {{ smt.home }}/.rbenv/bin/rbenv global {{ smt.ruby.version }} chdir={{ smt.home }}"
-        gem_install_bundler: "env RBENV_ROOT={{ smt.home }}/.rbenv {{ smt.home }}/.rbenv/shims/gem install bundler chdir={{ smt.home }}"
+        rbenv_install_ruby: "rbenv install {{ smt.ruby.version }}"
+        rbenv_global_ruby: "rbenv global {{ smt.ruby.version }}"
+        gem_install_bundler: "gem install bundler"
     # /rbenv ------------------------------------------------------- }}}
 
     # dotfiles ----------------------------------------------------- {{{
     dotfiles:
-      directory: "{{ smt.home }}/.dotfiles"
+      directories:
+        root: "{{ smt.home }}/.dotfiles"
       commands:
-        install: "RBENV_ROOT={{ smt.home }}/.rbenv {{ smt.home }}/.rbenv/shims/rake chdir={{ smt.home }}/.dotfiles creates={{ smt.home }}/.fishrc.local"
+        install: "{{ smt.home }}/.rbenv/shims/rake"
     # /dotfiles ---------------------------------------------------- }}}
+
+    # vim ---------------------------------------------------------- {{{
+    vim:
+      plug:
+        url: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+        dest: "{{ smt.home }}/.vim/autoload"
+        commands:
+          install: "{{ executables.vim }} -u .vimrc.bundles +PlugInstall +qall"
+    # /vim --------------------------------------------------------- {{{
   # /smt ------------------------------------------------------------------ }}}

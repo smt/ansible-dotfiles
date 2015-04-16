@@ -15,34 +15,76 @@
 
 # fzf --------------------------------------------------------------------- }}}
 - name: smt | fzf install
-  shell: "{{ dotfiles.smt.fzf.install }}"
+  shell: dotfiles.smt.fzf.commands.install
+  args:
+    chdir: dotfiles.smt.fzf.directories.root
 # /fzf -------------------------------------------------------------------- }}}
-
-# vim_plug ---------------------------------------------------------------- {{{
-- name: smt | curl plug.vim
-  shell: "{{ dotfiles.smt.vim_plug.download }}"
-# /vim_plug --------------------------------------------------------------- {{{
 
 # nvm --------------------------------------------------------------------- {{{
 - name: smt | nvm checkout
-  shell: "{{ dotfiles.smt.nvm.commands.nvm_checkout }}"
+  shell: dotfiles.smt.nvm.commands.checkout
+  with_items: dotfiles.smt.nvm.versions
+  args:
+    chdir: smt.home
+
+- name: smt | nvm install
+  shell: "{{ dotfiles.smt.nvm.executables.nvm }} install {{ item }}"
+  with_items: dotfiles.smt.nvm.versions
+  args:
+    chdir: smt.home
+
+- name: smt | nvm alias default
+  shell: "{{ dotfiles.smt.nvm.executables.nvm }} alias default {{ smt.nvm.default }}"
+  args:
+    chdir: smt.home
 # /nvm -------------------------------------------------------------------- }}}
 
 # rbenv ------------------------------------------------------------------- {{{
 - name: smt | rbenv install dotfiles.smt.ruby.version
-  shell: "{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }}"
+  shell: dotfiles.smt.rbenv.commands.rbenv_install_ruby
+  environment:
+    RBENV_ROOT: dotfiles.smt.rbenv.directories.root
+  args:
+    chdir: dotfiles.smt.rbenv.directories.bin
+    creates: "{{ dotfiles.smt.rbenv.directories }}/{{ smt.ruby.version }}"
 
 - name: smt | rbenv global dotfiles.smt.ruby.version
-  shell: "{{ dotfiles.smt.rbenv.commands.rbenv_global_ruby }}"
+  shell: dotfiles.smt.rbenv.commands.rbenv_global_ruby
+  environment:
+    RBENV_ROOT: dotfiles.smt.rbenv.directories.root
+  args:
+    chdir: dotfiles.smt.rbenv.directories.bin
 
 - name: smt | gem install bundler
-  shell: "{{ dotfiles.smt.rbenv.commands.gem_install_bundler }}"
+  shell: dotfiles.smt.rbenv.commands.gem_install_bundler
+  environment:
+    RBENV_ROOT: dotfiles.smt.rbenv.directories.root
+  args:
+    chdir: dotfiles.smt.rbenv.directories.shims
 # /rbenv ------------------------------------------------------------------ }}}
 
 # dotfiles ---------------------------------------------------------------- {{{
 - name: smt | rake install dotfiles
-  shell: "{{ dotfiles.smt.dotfiles.commands.install }}"
+  environment:
+    RBENV_ROOT: dotfiles.smt.rbenv.directories.root
+  shell: dotfiles.smt.dotfiles.commands.install
+  args:
+    chdir: dotfiles.smt.dotfiles.directories.root
+    creates: "{{ smt.home }}/.fishrc.local"
+
+- name: smt | chsh -s smt.user.shell | dseditgroup -o edit -a smt.user.name -t user smt.user.group
+  user: name={{ smt.user.name }} shell={{ smt.user.shell }} groups={{ smt.user.group }} append=yes
 
 - name: smt | ln -s ~/.tmux.system.conf ~/.tmux.conf
   file: "src={{ smt.home }}/.tmux.{{ system }}.conf dest={{ smt.home }}/.tmux.conf state=link"
 # /dotfiles --------------------------------------------------------------- }}}
+
+# vim --------------------------------------------------------------------- {{{
+- name: smt | get_url plug.vim
+  get_url: url={{ dotfiles.smt.vim.plug.url }} dest={{ dotfiles.smt.vim.plug.dest }}
+
+- name: smt | vim +PlugInstall +qall
+  shell: dotfiles.smt.vim.plug.commands.install
+  args:
+    chdir: smt.home
+# /vim -------------------------------------------------------------------- {{{
