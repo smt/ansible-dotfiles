@@ -7,6 +7,7 @@ dotfiles:
     # directories -------------------------------------------------- {{{
     directories:
       - "{{ smt.home }}/.config"
+      - "{{ smt.home }}/.vim/autoload"
     # /directories ------------------------------------------------- }}}
 
     # git ---------------------------------------------------------- {{{
@@ -46,7 +47,7 @@ dotfiles:
       directories:
         root: "{{ smt.home }}/.fzf"
       commands:
-        install: install
+        install: "./install"
     # /fzf --------------------------------------------------------- }}}
 
     # nvm ---------------------------------------------------------- {{{
@@ -55,8 +56,8 @@ dotfiles:
         root: "{{ smt.home }}/.nvm"
       executables:
         nvm: "{{ smt.home}}/.nvm/nvm.sh"
-      commands:
-        checkout: "git checkout (git describe --abbrev=0 --tags)"
+      # commands:
+      #   checkout: "git checkout (git describe --abbrev=0 --tags)"
       versions:
         - iojs
         - stable
@@ -94,7 +95,7 @@ dotfiles:
       directories:
         root: "{{ smt.home }}/.dotfiles"
       commands:
-        install: "{{ smt.home }}/.rbenv/shims/rake"
+        install: "rake"
     # /dotfiles ---------------------------------------------------- }}}
 
     # vim ---------------------------------------------------------- {{{
