@@ -44,7 +44,7 @@ dotfiles:
     # fzf ---------------------------------------------------------- }}}
     fzf:
       directories:
-        root: "{{ smt.home }}./fzf"
+        root: "{{ smt.home }}/.fzf"
       commands:
         install: install
     # /fzf --------------------------------------------------------- }}}
