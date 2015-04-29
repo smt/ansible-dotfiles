@@ -58,14 +58,14 @@
 
 - name: smt | chsh -s fish
   shell: "dscl . change /users/{{ smt.user.name }} UserShell /bin/bash {{ smt.user.shell }}"
-  sudo: yes
+  sudo: true
 # /dotfiles --------------------------------------------------------------- }}}
 
 # nvm --------------------------------------------------------------------- {{{
 - name: smt | nvm prefix
   shell: "brew --prefix nvm"
   register: nvm_prefix
-  ignore_errors: True
+  ignore_errors: true
   args:
     executable: "/bin/bash"
 
