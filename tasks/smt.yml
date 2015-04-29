@@ -87,9 +87,9 @@
 
 - name: smt | nvm root create
   shell: "mkdir -p {{ dotfiles.smt.nvm.directories.root }}"
-  creates: "{{ dotfiles.smt.nvm.directories.root }}"
   args:
     chdir: "{{ smt.home }}"
+    creates: "{{ dotfiles.smt.nvm.directories.root }}"
 
 - name: smt | nvm link create
   shell: "ln -s {{ nvm_prefix.stdout }}/nvm.sh {{ dotfiles.smt.nvm.executables.nvm }}"
@@ -102,21 +102,21 @@
   with_items: dotfiles.smt.nvm.versions
   environment:
     NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
-  creates: "{{ dotfiles.smt.nvm.directories.root }}/versions/node"
   when: nvm_stat.stat.isdir is not defined
   args:
     executable: "/bin/bash"
     chdir: "{{ smt.home }}"
+    creates: "{{ dotfiles.smt.nvm.directories.root }}/versions/node"
 
 - name: smt | nvm alias default
   shell: "{{ dotfiles.smt.nvm.executables.nvm }} alias default {{ smt.nvm.default }}"
   environment:
     NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
-  creates: "{{ dotfiles.smt.nvm.directories.root }}/alias/default"
   when: nvm_stat.stat.isdir is not defined
   args:
     executable: "/bin/bash"
     chdir: "{{ smt.home }}"
+    creates: "{{ dotfiles.smt.nvm.directories.root }}/alias/default"
 # /nvm -------------------------------------------------------------------- }}}
 
 # npm --------------------------------------------------------------------- }}}
@@ -136,7 +136,7 @@
 
 - name: smt | vim +PlugInstall +qall
   shell: "{{ dotfiles.smt.vim.plug.commands.install }}"
-  creates: "{{ dotfiles.smt.vim.plug.files.plugged }}"
   args:
     chdir: "{{ smt.home }}"
+    creates: "{{ dotfiles.smt.vim.plug.files.plugged }}"
 # /vim -------------------------------------------------------------------- {{{
