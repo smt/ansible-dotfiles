@@ -20,6 +20,30 @@
     chdir: "{{ dotfiles.smt.fzf.directories.root }}"
 # /fzf -------------------------------------------------------------------- }}}
 
+# rbenv ------------------------------------------------------------------- {{{
+- name: smt | rbenv install dotfiles.smt.ruby.version
+  shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }}"
+  environment:
+    RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
+  args:
+    chdir: "{{ dotfiles.smt.rbenv.directories.bin }}"
+    creates: "{{ dotfiles.smt.rbenv.directories }}/{{ smt.ruby.version }}"
+
+- name: smt | rbenv global dotfiles.smt.ruby.version
+  shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_global_ruby }}"
+  environment:
+    RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
+  args:
+    chdir: "{{ dotfiles.smt.rbenv.directories.bin }}"
+
+- name: smt | gem install bundler
+  shell: "./{{ dotfiles.smt.rbenv.commands.gem_install_bundler }}"
+  environment:
+    RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
+  args:
+    chdir: "{{ dotfiles.smt.rbenv.directories.shims }}"
+# /rbenv ------------------------------------------------------------------ }}}
+
 # dotfiles ---------------------------------------------------------------- {{{
 - name: smt | rake install dotfiles
   environment:
@@ -76,30 +100,6 @@
     executable: "/bin/bash"
     chdir: "{{ smt.home }}"
 # /nvm -------------------------------------------------------------------- }}}
-
-# rbenv ------------------------------------------------------------------- {{{
-- name: smt | rbenv install dotfiles.smt.ruby.version
-  shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }}"
-  environment:
-    RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
-  args:
-    chdir: "{{ dotfiles.smt.rbenv.directories.bin }}"
-    creates: "{{ dotfiles.smt.rbenv.directories }}/{{ smt.ruby.version }}"
-
-- name: smt | rbenv global dotfiles.smt.ruby.version
-  shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_global_ruby }}"
-  environment:
-    RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
-  args:
-    chdir: "{{ dotfiles.smt.rbenv.directories.bin }}"
-
-- name: smt | gem install bundler
-  shell: "./{{ dotfiles.smt.rbenv.commands.gem_install_bundler }}"
-  environment:
-    RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
-  args:
-    chdir: "{{ dotfiles.smt.rbenv.directories.shims }}"
-# /rbenv ------------------------------------------------------------------ }}}
 
 # vim --------------------------------------------------------------------- {{{
 - name: smt | get_url plug.vim
