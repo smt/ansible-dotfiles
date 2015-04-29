@@ -20,22 +20,60 @@
     chdir: "{{ dotfiles.smt.fzf.directories.root }}"
 # /fzf -------------------------------------------------------------------- }}}
 
+# dotfiles ---------------------------------------------------------------- {{{
+- name: smt | rake install dotfiles
+  environment:
+    RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
+  shell: "{{ dotfiles.smt.rbenv.directories.shims }}/{{ dotfiles.smt.dotfiles.commands.install }}"
+  args:
+    chdir: "{{ dotfiles.smt.dotfiles.directories.root }}"
+    creates: "{{ smt.home }}/.fishrc.local"
+
+- name: smt | ln -s ~/.tmux.system.conf ~/.tmux.conf
+  file: "src={{ smt.home }}/.tmux.{{ system }}.conf dest={{ smt.home }}/.tmux.conf state=link"
+
+- name: smt | chsh -s fish
+  shell: "dscl . change /users/{{ smt.user.name }} UserShell /bin/bash {{ smt.user.shell }}"
+  sudo: yes
+# /dotfiles --------------------------------------------------------------- }}}
+
 # nvm --------------------------------------------------------------------- {{{
-# - name: smt | nvm checkout
-#   shell: "{{ dotfiles.smt.nvm.commands.checkout }}"
-#   with_items: dotfiles.smt.nvm.versions
-#   args:
-#     chdir: "{{ smt.home }}"
+- name: smt | nvm prefix
+  shell: "brew --prefix nvm"
+  register: nvm_prefix
+  ignore_errors: True
+  args:
+    executable: "/bin/bash"
+
+- name: smt | nvm link
+  shell: "ln -s {{ nvm_prefix }}/nvm.sh {{ dotfiles.smt.nvm.executables.nvm }}"
+  args:
+    chdir: "{{ smt.home }}"
 
 - name: smt | nvm install
   shell: "{{ dotfiles.smt.nvm.executables.nvm }} install {{ item }}"
   with_items: dotfiles.smt.nvm.versions
+  environment:
+    NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
   args:
+    executable: "/bin/bash"
     chdir: "{{ smt.home }}"
 
 - name: smt | nvm alias default
   shell: "{{ dotfiles.smt.nvm.executables.nvm }} alias default {{ smt.nvm.default }}"
+  environment:
+    NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
   args:
+    executable: "/bin/bash"
+    chdir: "{{ smt.home }}"
+
+- name: smt | npm install
+  shell: "{{ dotfiles.smt.nvm.executables.npm }} install -g {{ item }}"
+  with_items: dotfiles.smt.nvm.modules
+  environment:
+    NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
+  args:
+    executable: "/bin/bash"
     chdir: "{{ smt.home }}"
 # /nvm -------------------------------------------------------------------- }}}
 
@@ -62,23 +100,6 @@
   args:
     chdir: "{{ dotfiles.smt.rbenv.directories.shims }}"
 # /rbenv ------------------------------------------------------------------ }}}
-
-# dotfiles ---------------------------------------------------------------- {{{
-- name: smt | rake install dotfiles
-  environment:
-    RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
-  shell: "{{ dotfiles.smt.rbenv.directories.shims }}/{{ dotfiles.smt.dotfiles.commands.install }}"
-  args:
-    chdir: "{{ dotfiles.smt.dotfiles.directories.root }}"
-    creates: "{{ smt.home }}/.fishrc.local"
-
-- name: smt | ln -s ~/.tmux.system.conf ~/.tmux.conf
-  file: "src={{ smt.home }}/.tmux.{{ system }}.conf dest={{ smt.home }}/.tmux.conf state=link"
-
-- name: smt | chsh -s fish
-  shell: "dscl . change /users/{{ smt.user.name }} UserShell /bin/bash {{ smt.user.shell }}"
-  sudo: yes
-# /dotfiles --------------------------------------------------------------- }}}
 
 # vim --------------------------------------------------------------------- {{{
 - name: smt | get_url plug.vim

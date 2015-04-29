@@ -7,6 +7,7 @@ dotfiles:
     # directories -------------------------------------------------- {{{
     directories:
       - "{{ smt.home }}/.config"
+      - "{{ smt.home }}/.nvm"
       - "{{ smt.home }}/.vim/autoload"
     # /directories ------------------------------------------------- }}}
 
@@ -25,9 +26,6 @@ dotfiles:
         - name: pyenv
           repo: "https://github.com/yyuu/pyenv.git"
           dest: "{{ smt.home }}/.pyenv"
-        - name: nvm
-          repo: "https://github.com/creationix/nvm.git"
-          dest: "{{ smt.home }}/.nvm"
         - name: nvm-wrapper
           repo: "https://github.com/passcod/nvm-fish-wrapper.git"
           dest: "{{ smt.home }}/.nvm-wrapper"
@@ -50,19 +48,54 @@ dotfiles:
         install: "./install"
     # /fzf --------------------------------------------------------- }}}
 
+    # dotfiles ----------------------------------------------------- {{{
+    dotfiles:
+      directories:
+        root: "{{ smt.home }}/.dotfiles"
+      commands:
+        install: "rake"
+    # /dotfiles ---------------------------------------------------- }}}
+
     # nvm ---------------------------------------------------------- {{{
     nvm:
       directories:
         root: "{{ smt.home }}/.nvm"
       executables:
-        nvm: "{{ smt.home}}/.nvm/nvm.sh"
-      # commands:
-      #   checkout: "git checkout (git describe --abbrev=0 --tags)"
+        npm: "npm"
+        nvm: "{{ smt.home }}/.nvm/nvm.sh"
+      commands:
+        link: "ln -s /usr/local/opt/nvm/nvm.sh {{ smt.home }}/.nvm/nvm.sh"
+        source: "source {{ smt.home }}/.nvm/nvm.sh"
       versions:
         - iojs
         - stable
         - 0.10
-    # /nvm --------------------------------------------------------- }}}
+    # /nvm --------------------------------------------------------- {{{
+
+    # npm ---------------------------------------------------------- {{{
+    npm:
+      modules:
+        - npm@latest
+        - bower
+        - browserify
+        - coffee-script
+        - eslint
+        - firebase-tools
+        - grunt-cli
+        - gulp
+        - jasmine
+        - jshint
+        - karma-cli
+        - mocha
+        - phantomjs
+        - protractor
+        - react-tools
+        - tern
+        - typescript
+        - vtop
+        - webpack
+        - yo
+    # /npm --------------------------------------------------------- {{{
 
     # rbenv -------------------------------------------------------- {{{
     rbenv:
@@ -89,14 +122,6 @@ dotfiles:
         rbenv_global_ruby: "rbenv global {{ smt.ruby.version }}"
         gem_install_bundler: "gem install bundler"
     # /rbenv ------------------------------------------------------- }}}
-
-    # dotfiles ----------------------------------------------------- {{{
-    dotfiles:
-      directories:
-        root: "{{ smt.home }}/.dotfiles"
-      commands:
-        install: "rake"
-    # /dotfiles ---------------------------------------------------- }}}
 
     # vim ---------------------------------------------------------- {{{
     vim:
