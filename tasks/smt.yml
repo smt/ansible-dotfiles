@@ -9,7 +9,7 @@
 
 # repos ------------------------------------------------------------------- {{{
 - name: smt | git clone dotfiles.smt.git.repos
-  git: repo={{ item.repo }} dest={{ item.dest }} accept_hostkey=true
+  git: repo={{ item.repo }} dest={{ item.dest }} accept_hostkey=true depth=1 ssh_opts="-o StrictHostKeyChecking=no"
   with_items: dotfiles.smt.git.repos
 # /repos ------------------------------------------------------------------ }}}
 
@@ -42,9 +42,13 @@
     RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
   args:
     chdir: "{{ dotfiles.smt.rbenv.directories.shims }}"
+  ignore_errors: true
 # /rbenv ------------------------------------------------------------------ }}}
 
 # dotfiles ---------------------------------------------------------------- {{{
+- name: smt | rake stat
+  stat: "{{ dotfiles.smt.rbenv.directories.shims }}/{{ dotfiles.smt.dotfiles.commands.install }}"
+  register: rake
 - name: smt | rake install dotfiles
   environment:
     RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
@@ -52,13 +56,21 @@
   args:
     chdir: "{{ dotfiles.smt.dotfiles.directories.root }}"
     creates: "{{ smt.home }}/.fishrc.local"
+  when: rake.stat.isreg is defined and rake.stat.isreg
 
+- name: smt | tmux.conf stat
+  stat: "{{ smt.home }}/.tmux.{{ system }}.conf"
+  register: tmux_conf
 - name: smt | ln -s ~/.tmux.system.conf ~/.tmux.conf
   file: "src={{ smt.home }}/.tmux.{{ system }}.conf dest={{ smt.home }}/.tmux.conf state=link"
+  when: tmux_conf.stat.islnk is not defined
 
 - name: smt | chsh -s fish
   shell: "dscl . change /users/{{ smt.user.name }} UserShell /bin/bash {{ smt.user.shell }}"
   sudo: true
+  args:
+    executable: "/bin/bash"
+  ignore_errors: true
 # /dotfiles --------------------------------------------------------------- }}}
 
 # nvm --------------------------------------------------------------------- {{{
@@ -69,16 +81,29 @@
   args:
     executable: "/bin/bash"
 
-- name: smt | nvm link
-  shell: "ln -s {{ nvm_prefix }}/nvm.sh {{ dotfiles.smt.nvm.executables.nvm }}"
+- name: smt | nvm root stat
+  stat: "path={{ dotfiles.smt.nvm.directories.root }}"
+  register: nvm_stat
+
+- name: smt | nvm root create
+  shell: "mkdir -p {{ dotfiles.smt.nvm.directories.root }}"
+  creates: "{{ dotfiles.smt.nvm.directories.root }}"
   args:
     chdir: "{{ smt.home }}"
+
+- name: smt | nvm link create
+  shell: "ln -s {{ nvm_prefix.stdout }}/nvm.sh {{ dotfiles.smt.nvm.executables.nvm }}"
+  args:
+    chdir: "{{ smt.home }}"
+  when: nvm_stat.stat.isdir is not defined
 
 - name: smt | nvm install
   shell: "{{ dotfiles.smt.nvm.executables.nvm }} install {{ item }}"
   with_items: dotfiles.smt.nvm.versions
   environment:
     NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
+  creates: "{{ dotfiles.smt.nvm.directories.root }}/versions/node"
+  when: nvm_stat.stat.isdir is not defined
   args:
     executable: "/bin/bash"
     chdir: "{{ smt.home }}"
@@ -87,19 +112,23 @@
   shell: "{{ dotfiles.smt.nvm.executables.nvm }} alias default {{ smt.nvm.default }}"
   environment:
     NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
+  creates: "{{ dotfiles.smt.nvm.directories.root }}/alias/default"
+  when: nvm_stat.stat.isdir is not defined
   args:
     executable: "/bin/bash"
     chdir: "{{ smt.home }}"
+# /nvm -------------------------------------------------------------------- }}}
 
+# npm --------------------------------------------------------------------- }}}
 - name: smt | npm install
-  shell: "{{ dotfiles.smt.nvm.executables.npm }} install -g {{ item }}"
-  with_items: dotfiles.smt.nvm.modules
+  shell: "npm install -g {{ item }}"
+  with_items: dotfiles.smt.npm.modules
   environment:
     NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
   args:
     executable: "/bin/bash"
     chdir: "{{ smt.home }}"
-# /nvm -------------------------------------------------------------------- }}}
+# /npm -------------------------------------------------------------------- }}}
 
 # vim --------------------------------------------------------------------- {{{
 - name: smt | get_url plug.vim
@@ -107,6 +136,7 @@
 
 - name: smt | vim +PlugInstall +qall
   shell: "{{ dotfiles.smt.vim.plug.commands.install }}"
+  creates: "{{ dotfiles.smt.vim.plug.files.plugged }}"
   args:
     chdir: "{{ smt.home }}"
 # /vim -------------------------------------------------------------------- {{{

@@ -7,7 +7,6 @@ dotfiles:
     # directories -------------------------------------------------- {{{
     directories:
       - "{{ smt.home }}/.config"
-      - "{{ smt.home }}/.nvm"
       - "{{ smt.home }}/.vim/autoload"
     # /directories ------------------------------------------------- }}}
 
@@ -61,7 +60,6 @@ dotfiles:
       directories:
         root: "{{ smt.home }}/.nvm"
       executables:
-        npm: "npm"
         nvm: "{{ smt.home }}/.nvm/nvm.sh"
       commands:
         link: "ln -s /usr/local/opt/nvm/nvm.sh {{ smt.home }}/.nvm/nvm.sh"
@@ -128,6 +126,8 @@ dotfiles:
       plug:
         url: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
         dest: "{{ smt.home }}/.vim/autoload"
+        files:
+          plugged: "{{ smt.home }}/.vim/plugged"
         commands:
           install: "{{ executables.vim }} -u .vimrc.bundles +PlugInstall +qall"
     # /vim --------------------------------------------------------- {{{
