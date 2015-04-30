@@ -112,11 +112,11 @@
 
 # vim --------------------------------------------------------------------- {{{
 - name: smt | get_url plug.vim
-  get_url: url={{ dotfiles.smt.vim.plug.url }} dest={{ dotfiles.smt.vim.plug.dest }}
+  get_url: "url={{ dotfiles.smt.vim.plug.url }} dest={{ dotfiles.smt.vim.plug.dest }}"
 
 - name: smt | vim +PlugInstall +qall
   shell: "{{ dotfiles.smt.vim.plug.commands.install }}"
   args:
     chdir: "{{ smt.home }}"
     creates: "{{ dotfiles.smt.vim.plug.files.plugged }}"
-# /vim -------------------------------------------------------------------- {{{
+# /vim -------------------------------------------------------------------- }}}
