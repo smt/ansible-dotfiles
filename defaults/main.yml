@@ -62,8 +62,11 @@ dotfiles:
       executables:
         nvm: "{{ smt.home }}/.nvm/nvm.sh"
       commands:
-        link: "ln -s /usr/local/opt/nvm/nvm.sh {{ smt.home }}/.nvm/nvm.sh"
-        source: "source {{ smt.home }}/.nvm/nvm.sh"
+        selfinstall: "{{ smt.home }}/.nvm/install.sh"
+        install: "nvm install"
+        checkdefault: "nvm ls | grep -e 'default -> stable'"
+        alias: "nvm alias default stable"
+        use: "nvm use stable"
       versions:
         - iojs
         - stable
@@ -72,6 +75,8 @@ dotfiles:
 
     # npm ---------------------------------------------------------- {{{
     npm:
+      commands:
+        install: "npm install -g"
       modules:
         - npm@latest
         - bower

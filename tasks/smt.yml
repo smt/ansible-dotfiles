@@ -9,11 +9,11 @@
 
 # repos ------------------------------------------------------------------- {{{
 - name: smt | git clone dotfiles.smt.git.repos
-  git: repo={{ item.repo }} dest={{ item.dest }} accept_hostkey=true depth=1 ssh_opts="-o StrictHostKeyChecking=no"
+  git: repo={{ item.repo }} dest={{ item.dest }} accept_hostkey=true ssh_opts="-o StrictHostKeyChecking=no"
   with_items: dotfiles.smt.git.repos
 # /repos ------------------------------------------------------------------ }}}
 
-# fzf --------------------------------------------------------------------- }}}
+# fzf --------------------------------------------------------------------- {{{
 - name: smt | fzf install
   shell: "{{ dotfiles.smt.fzf.commands.install }}"
   args:
@@ -42,12 +42,12 @@
     RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
   args:
     chdir: "{{ dotfiles.smt.rbenv.directories.shims }}"
-  ignore_errors: true
+  ignore_errors: True
 # /rbenv ------------------------------------------------------------------ }}}
 
 # dotfiles ---------------------------------------------------------------- {{{
 - name: smt | rake stat
-  stat: "{{ dotfiles.smt.rbenv.directories.shims }}/{{ dotfiles.smt.dotfiles.commands.install }}"
+  stat: "path={{ dotfiles.smt.rbenv.directories.shims }}/{{ dotfiles.smt.dotfiles.commands.install }}"
   register: rake
 - name: smt | rake install dotfiles
   environment:
@@ -59,7 +59,7 @@
   when: rake.stat.isreg is defined and rake.stat.isreg
 
 - name: smt | tmux.conf stat
-  stat: "{{ smt.home }}/.tmux.{{ system }}.conf"
+  stat: "path={{ smt.home }}/.tmux.{{ system }}.conf"
   register: tmux_conf
 - name: smt | ln -s ~/.tmux.system.conf ~/.tmux.conf
   file: "src={{ smt.home }}/.tmux.{{ system }}.conf dest={{ smt.home }}/.tmux.conf state=link"
@@ -67,67 +67,47 @@
 
 - name: smt | chsh -s fish
   shell: "dscl . change /users/{{ smt.user.name }} UserShell /bin/bash {{ smt.user.shell }}"
-  sudo: true
+  sudo: True
   args:
     executable: "/bin/bash"
-  ignore_errors: true
+  ignore_errors: True
 # /dotfiles --------------------------------------------------------------- }}}
 
 # nvm --------------------------------------------------------------------- {{{
-- name: smt | nvm prefix
-  shell: "brew --prefix nvm"
-  register: nvm_prefix
-  ignore_errors: true
-  args:
-    executable: "/bin/bash"
+- name: smt | nvm add nvm source line to .profile
+  file: "path={{ smt.home }}/.profile state=touch mode='u=rw,g=r,o=r'"
+- lineinfile: "dest={{ smt.home }}/.profile line='source {{ smt.home }}/.nvm/nvm.sh'"
 
-- name: smt | nvm root stat
-  stat: "path={{ dotfiles.smt.nvm.directories.root }}"
-  register: nvm_stat
-
-- name: smt | nvm root create
-  shell: "mkdir -p {{ dotfiles.smt.nvm.directories.root }}"
-  args:
-    chdir: "{{ smt.home }}"
-    creates: "{{ dotfiles.smt.nvm.directories.root }}"
-
-- name: smt | nvm link create
-  shell: "ln -s {{ nvm_prefix.stdout }}/nvm.sh {{ dotfiles.smt.nvm.executables.nvm }}"
-  args:
-    chdir: "{{ smt.home }}"
-  when: nvm_stat.stat.isdir is not defined
-
-- name: smt | nvm install
-  shell: "{{ dotfiles.smt.nvm.executables.nvm }} install {{ item }}"
+- name: smt | nvm self-install
+  command: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.selfinstall }}"
   with_items: dotfiles.smt.nvm.versions
-  environment:
-    NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
-  when: nvm_stat.stat.isdir is not defined
-  args:
-    executable: "/bin/bash"
-    chdir: "{{ smt.home }}"
-    creates: "{{ dotfiles.smt.nvm.directories.root }}/versions/node"
+  register: nvm_selfinstall_result
+  ignore_errors: True
 
-- name: smt | nvm alias default
-  shell: "{{ dotfiles.smt.nvm.executables.nvm }} alias default {{ smt.nvm.default }}"
-  environment:
-    NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
-  when: nvm_stat.stat.isdir is not defined
-  args:
-    executable: "/bin/bash"
-    chdir: "{{ smt.home }}"
-    creates: "{{ dotfiles.smt.nvm.directories.root }}/alias/default"
+- name: smt | nvm install nodes
+  command: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.install }} {{ item }}"
+  with_items: dotfiles.smt.nvm.versions
+  register: nvm_install_result
+  changed_when: "'is already installed.' not in nvm_install_result.stdout"
+  when: nvm_selfinstall_result|success
+  ignore_errors: True
+
+- name: smt | nvm check default alias
+  shell: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.checkdefault }}"
+  register: nvm_check_default
+  changed_when: False
+  when: nvm_install_result|success
+  ignore_errors: True
+
+- name: smt | nvm set default node version to stable
+  command: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.use }}"
+  when: nvm_check_default|failed
 # /nvm -------------------------------------------------------------------- }}}
 
-# npm --------------------------------------------------------------------- }}}
+# npm --------------------------------------------------------------------- {{{
 - name: smt | npm install
-  shell: "npm install -g {{ item }}"
+  shell: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.npm.commands.install }} {{ item }}"
   with_items: dotfiles.smt.npm.modules
-  environment:
-    NVM_DIR: "{{ dotfiles.smt.nvm.directories.root }}"
-  args:
-    executable: "/bin/bash"
-    chdir: "{{ smt.home }}"
 # /npm -------------------------------------------------------------------- }}}
 
 # vim --------------------------------------------------------------------- {{{
