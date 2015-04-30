@@ -120,3 +120,26 @@
     chdir: "{{ smt.home }}"
     creates: "{{ dotfiles.smt.vim.plug.files.plugged }}"
 # /vim -------------------------------------------------------------------- }}}
+
+# boot2docker ------------------------------------------------------------- {{{
+- name: smt | boot2docker init
+  command: "boot2docker init"
+  creates: "{{ smt.home }}/.boot2docker"
+  register: boot2docker_init
+
+- name: smt | mount /Users to boot2docker-vm
+  command: "VBoxManage sharedfolder add boot2docker-vm -name home -hostpath /Users"
+  when: boot2docker_init is defined
+
+- name: smt | increase VM memory to 8G
+  command: "VBoxManage modifyvm 'boot2docker-vm' --memory 8192"
+  when: boot2docker_init is defined
+
+- name: smt | enable symlinks on shared folder /Users
+  command: "VBoxManage setextradata boot2docker-vm VBoxInternal2/SharedFoldersEnableSymlinksCreate/home 1"
+  when: boot2docker_init is defined
+
+- name: smt | boot2docker up
+  command: "boot2docker up"
+  when: boot2docker_init is defined
+# /boot2docker ------------------------------------------------------------ }}}
