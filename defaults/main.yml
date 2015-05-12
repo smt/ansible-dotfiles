@@ -121,9 +121,19 @@ dotfiles:
         rbenv: "{{ smt.home }}/.rbenv/bin/rbenv"
 
       commands:
-        rbenv_install_ruby: "rbenv install {{ smt.ruby.version }}"
+        rbenv_install_ruby: "rbenv install"
         rbenv_global_ruby: "rbenv global {{ smt.ruby.version }}"
-        gem_install_bundler: "gem install bundler"
+
+      versions:
+        - "{{ smt.ruby.version }}"
+        - 2.1.1
+
+      gems:
+        - bundler
+        - ayadn
+        - tmuxinator
+        - compass
+        - jekyll
     # /rbenv ------------------------------------------------------- }}}
 
     # vim ---------------------------------------------------------- {{{

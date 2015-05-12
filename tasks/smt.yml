@@ -23,11 +23,15 @@
 # rbenv ------------------------------------------------------------------- {{{
 - name: smt | rbenv install dotfiles.smt.ruby.version
   shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }}"
+- name: smt | rbenv install
+  shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }} {{ item }}"
+  with_items: dotfiles.smt.rbenv.versions
   environment:
     RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
   args:
     chdir: "{{ dotfiles.smt.rbenv.directories.bin }}"
-    creates: "{{ dotfiles.smt.rbenv.directories }}/{{ smt.ruby.version }}"
+    chdir: dotfiles.smt.rbenv.directories.bin
+    creates: "{{ dotfiles.smt.rbenv.directories }}/{{ item }}"
 
 - name: smt | rbenv global dotfiles.smt.ruby.version
   shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_global_ruby }}"
@@ -36,8 +40,9 @@
   args:
     chdir: "{{ dotfiles.smt.rbenv.directories.bin }}"
 
-- name: smt | gem install bundler
-  shell: "./{{ dotfiles.smt.rbenv.commands.gem_install_bundler }}"
+- name: smt | gem install
+  shell: "./gem install {{ item }}"
+  with_items: dotfiles.smt.rbenv.gems
   environment:
     RBENV_ROOT: "{{ dotfiles.smt.rbenv.directories.root }}"
   args:
