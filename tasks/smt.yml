@@ -148,3 +148,25 @@
   command: "boot2docker up"
   when: boot2docker_init is defined
 # /boot2docker ------------------------------------------------------------ }}}
+
+# perl -------------------------------------------------------------------- {{{
+- name: smt | perl prefix
+  command: "brew --prefix perl"
+  register: perl_prefix
+  changed_when: False
+
+- name: smt | cpan install
+  shell: "{{ perl_prefix.stdout }}/bin/cpan install {{ item }}"
+  with_items:
+    - CPAN
+    - POSIX.pm
+    - Finance/Quote.pm
+    - Finance/QuoteHist.pm
+  args:
+    executable: "/bin/bash"
+
+- name: smt | cpan reload
+  shell: "{{ perl_prefix.stdout }}/bin/cpan reload"
+  args:
+    executable: "/bin/bash"
+# /perl ------------------------------------------------------------------- }}}

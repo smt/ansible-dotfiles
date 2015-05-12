@@ -92,9 +92,12 @@ dotfiles:
         - mocha
         - phantomjs
         - protractor
+        - react-native-cli
         - react-tools
         - tern
+        - tsd
         - typescript
+        - typescript-tools
         - vtop
         - webpack
         - yo
