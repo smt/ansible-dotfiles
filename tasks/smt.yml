@@ -21,8 +21,6 @@
 # /fzf -------------------------------------------------------------------- }}}
 
 # rbenv ------------------------------------------------------------------- {{{
-- name: smt | rbenv install dotfiles.smt.ruby.version
-  shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }}"
 - name: smt | rbenv install
   shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_install_ruby }} {{ item }}"
   with_items: dotfiles.smt.rbenv.versions
@@ -32,6 +30,7 @@
     chdir: "{{ dotfiles.smt.rbenv.directories.bin }}"
     chdir: dotfiles.smt.rbenv.directories.bin
     creates: "{{ dotfiles.smt.rbenv.directories }}/{{ item }}"
+  ignore_errors: True
 
 - name: smt | rbenv global dotfiles.smt.ruby.version
   shell: "./{{ dotfiles.smt.rbenv.commands.rbenv_global_ruby }}"
@@ -71,30 +70,28 @@
   when: tmux_conf.stat.islnk is not defined
 
 - name: smt | chsh -s fish
-  shell: "dscl . change /users/{{ smt.user.name }} UserShell /bin/bash {{ smt.user.shell }}"
-  sudo: True
+  shell: "sudo dscl . change /users/{{ smt.user.name }} UserShell /bin/bash {{ smt.user.shell }}"
   args:
     executable: "/bin/bash"
   ignore_errors: True
 # /dotfiles --------------------------------------------------------------- }}}
 
 # nvm --------------------------------------------------------------------- {{{
+- command: "brew --prefix nvm"
+  register: nvm_prefix
+- name: smt | nvm link to brew prefx
+  file: "src={{ nvm_prefix }} dest={{ smt.home }}/.nvm state=link"
+  changed_when: False
+
 - name: smt | nvm add nvm source line to .profile
   file: "path={{ smt.home }}/.profile state=touch mode='u=rw,g=r,o=r'"
 - lineinfile: "dest={{ smt.home }}/.profile line='source {{ smt.home }}/.nvm/nvm.sh'"
-
-- name: smt | nvm self-install
-  command: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.selfinstall }}"
-  with_items: dotfiles.smt.nvm.versions
-  register: nvm_selfinstall_result
-  ignore_errors: True
 
 - name: smt | nvm install nodes
   command: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.install }} {{ item }}"
   with_items: dotfiles.smt.nvm.versions
   register: nvm_install_result
   changed_when: "'is already installed.' not in nvm_install_result.stdout"
-  when: nvm_selfinstall_result|success
   ignore_errors: True
 
 - name: smt | nvm check default alias
@@ -105,8 +102,11 @@
   ignore_errors: True
 
 - name: smt | nvm set default node version to stable
-  command: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.use }}"
+  command: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.alias }}"
   when: nvm_check_default|failed
+
+- name: smt | nvm use stable node
+  command: "sudo -iu {{ smt.user.name }} {{ dotfiles.smt.nvm.commands.use }}"
 # /nvm -------------------------------------------------------------------- }}}
 
 # npm --------------------------------------------------------------------- {{{
@@ -131,15 +131,20 @@
 
 # boot2docker ------------------------------------------------------------- {{{
 - name: smt | boot2docker init
-  command: "boot2docker init"
-  creates: "{{ smt.home }}/.boot2docker"
+  command: "boot2docker init -m 8192"
   register: boot2docker_init
+  args:
+    creates: "{{ smt.home }}/.boot2docker"
 
 - name: smt | mount /Users to boot2docker-vm
   command: "VBoxManage sharedfolder add boot2docker-vm -name home -hostpath /Users"
   when: boot2docker_init is defined
 
-- name: smt | increase VM memory to 8G
+- name: smt | set SSD mode on boot2docker
+  command: "VBoxManage storageattach boot2docker-vm --storagectl SATA --port 1 --device 0 --nonrotational on"
+  when: boot2docker_init is defined
+
+- name: smt | increase boot2docker memory to 8G
   command: "VBoxManage modifyvm 'boot2docker-vm' --memory 8192"
   when: boot2docker_init is defined
 
@@ -147,9 +152,15 @@
   command: "VBoxManage setextradata boot2docker-vm VBoxInternal2/SharedFoldersEnableSymlinksCreate/home 1"
   when: boot2docker_init is defined
 
+- name: smt | reload virtualbox kernel extensions
+  command: "sudo /Library/Application\ Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh restart"
+  when: boot2docker_init is defined
+  ignore_errors: True
+
 - name: smt | boot2docker up
   command: "boot2docker up"
   when: boot2docker_init is defined
+  ignore_errors: True
 # /boot2docker ------------------------------------------------------------ }}}
 
 # perl -------------------------------------------------------------------- {{{
